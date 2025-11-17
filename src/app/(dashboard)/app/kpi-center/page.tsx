@@ -4,6 +4,19 @@ import { useState } from "react";
 import { SectionCard } from "@/components/ui/section-card";
 import { MetricCard } from "@/components/ui/metric-card";
 
+type KPIDelta = {
+  value: string;
+  trend: "up" | "down";
+};
+
+type KPI = {
+  label: string;
+  value: string;
+  delta?: KPIDelta;
+  percentage?: string;
+  icon?: string;
+};
+
 const tabs = [
   { id: "flash", label: "Flash" },
   { id: "sales", label: "Sales" },
@@ -12,7 +25,7 @@ const tabs = [
   { id: "other", label: "Other KPIs" },
 ];
 
-const flashKPIs = [
+const flashKPIs: KPI[] = [
   { label: "Revenue", value: "$287K", delta: { value: "+12.5%", trend: "up" as const }, icon: "💰" },
   { label: "Units (Placements)", value: "178", delta: { value: "+8.2%", trend: "up" as const }, icon: "👥" },
   { label: "Payments", value: "$245K", delta: { value: "+15.3%", trend: "up" as const }, icon: "💵" },
@@ -21,7 +34,7 @@ const flashKPIs = [
   { label: "GP/hr", value: "$18.50", delta: { value: "+1.8%", trend: "up" as const }, icon: "⚡" },
 ];
 
-const salesKPIs = [
+const salesKPIs: KPI[] = [
   { label: "New Client Revenue", value: "$124K", percentage: "43.2%" },
   { label: "Existing Client Revenue", value: "$163K", percentage: "56.8%" },
   { label: "New Placements", value: "89", percentage: "50.0%" },
@@ -29,14 +42,14 @@ const salesKPIs = [
   { label: "Offer→Start %", value: "76.1%", delta: { value: "+2.3%", trend: "up" as const } },
 ];
 
-const effectivenessKPIs = [
+const effectivenessKPIs: KPI[] = [
   { label: "Submittal→Interview %", value: "61.0%", delta: { value: "+3.2%", trend: "up" as const } },
   { label: "Interview→Offer %", value: "60.5%", delta: { value: "-1.8%", trend: "down" as const } },
   { label: "Offer→Start %", value: "76.1%", delta: { value: "+2.3%", trend: "up" as const } },
   { label: "Time-to-Fill", value: "12.3 days", delta: { value: "-1.2 days", trend: "up" as const } },
 ];
 
-const operationsKPIs = [
+const operationsKPIs: KPI[] = [
   { label: "Cancellation Rate", value: "4.2%", delta: { value: "-0.8%", trend: "up" as const } },
   { label: "No-show Rate", value: "2.1%", delta: { value: "-0.3%", trend: "up" as const } },
   { label: "Early Term 30d", value: "8.4%", delta: { value: "+1.2%", trend: "down" as const } },
@@ -48,7 +61,7 @@ const operationsKPIs = [
 export default function KPICenterPage() {
   const [activeTab, setActiveTab] = useState("flash");
 
-  const getKPIsForTab = () => {
+  const getKPIsForTab = (): KPI[] => {
     switch (activeTab) {
       case "flash":
         return flashKPIs;
